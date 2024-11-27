@@ -23,6 +23,7 @@
             <table class="table table-hover  ">
                 <thead>
                     <tr>
+                        <th scope="col">Sl. No.</th>
                         <th scope="col">Item Name</th>
                         <th scope="col">Quantity</th>
                         <th scope="col">Supplier Name</th>
@@ -30,13 +31,16 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {% for i in lowStockList %}
                     <tr>
-                        <td>Steel</td>
-                        <td>250Kg</td>
-                        <td>Rajesh Steels</td>
-                        <td>31-05-2024</td>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ i.itemName }}</td>
+                        <td>{{ i.quantity }}</td>
+                        <td>{{ i.supplier }}</td>
+                        <td>{{ i.dateAdded }}</td>
                         <td><button class="btn btn-danger btn-sm remove-btn">Ignore Now</button></td>
                     </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>

@@ -9,43 +9,64 @@
 <body>
     {% block content %}
 
-    <div class="container w-50 mx-auto  pb-4" style="padding-top:70px">
+    <div class="container w-50 mx-auto  pb-4" style="padding-top:30px">
         <div class="shadow  card">
             <div class="card-body ">
-                <form enctype="multipart/form-data">
+                <form enctype="multipart/form-data" action="{% url 'stockUpdateForm' id.id %}" method="POST">
+                    {% csrf_token %}
                     <div class="form-group">
                         <div class="d-flex justify-content-center logIn loginFont">
                             <h2>Update Stock </h2>
                         </div>
                         <label for="InputEmail1">Item Name</label>
-                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required />
+                        <input type="text" class="form-control" id="exampleInputEmail1" name="itemName" value="{{ id.itemName }}" aria-describedby="emailHelp" required />
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="">Amount (in Euro)</label>
-                            <input type="number" class="form-control" id="" required />
+                            <input type="number" class="form-control" name="amount" value="{{ id.amount }}" id="" required />
                         </div>
                         <div class="form-group col-md-6 ">
                             <label for="">Quantity (Kg or L)</label>
-                            <input type="number" class="form-control" id="" required />
+                            <input type="number" class="form-control" name="quantity" value="{{ id.quantity }}" required />
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="">Date Added</label>
-                            <input type="date" class="form-control" id="" required />
+                            <input type="date" class="form-control" name="dateAdded" value="{{ id.dateAdded|date:'Y-m-d' }}" id="" required />
                         </div>
                         <div class="form-group col-md-6">
                             <label for="">Supplier Name</label>
-                            <input type="text" class="form-control" id="" required />
+                            <input type="text" class="form-control" id="" name="supplier" value="{{ id.supplier }}" required />
                         </div>
                     </div>
-                    <div class="form-group mx-auto pt-2">
-                        <label for="">Item Image</label>
-                        <input type="file" id="imageUpload" name="image" accept="image/*" required>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="">Supplier Phone Number</label>
+                            <input type="number" name="supplierNo" class="form-control" name="supplierNo" value="{{ id.supplierNo }}" id="" required />
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="">Supplier Email</label>
+                            <input type="email" name="supplierEmail" value="{{ id.supplierEmail }}" class="form-control" id="" placeholder="Enter Supplier Name" required />
+                        </div>
                     </div>
-
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="imageUpload">Current Image</label>
+                            <div>
+                                {% if id.image %}
+                                <img src="{{ id.image.url }}" alt="Current Book Image" width="30%" height="10%">
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6 ">
+                            <label for="imageUpload">Update Image</label>
+                            <!-- File input to upload a new image -->
+                            <input type="file" name="image" class="pt-3" id="imageUpload" accept="image/*">
+                        </div>
+                    </div>
                     <div class="d-flex justify-content-center loginButton">
                         <div>
                             <a href="{% url 'stockDashboard' %}" type="button" class="mr-3 btn btn-danger btn">

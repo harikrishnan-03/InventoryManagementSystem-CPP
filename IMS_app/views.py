@@ -3,6 +3,7 @@ from .forms import UserForm, LoginAuthentication
 from django.contrib.auth import login,logout,authenticate
 from django.contrib.auth.decorators import login_required
 from . models import *
+from django.db.models import Q
 
 # Create your views here.
 def logIn(request):
@@ -40,33 +41,94 @@ def logOut(request):
     
 def homePage(request):
     return render(request,"HomePage.html")
-
+    
+@login_required(login_url="logIn")
 def dashboard(request):
     return render(request,"Dashboard.html")
     
 @login_required(login_url="logIn")
 def stockAdd(request):
     return render(request,'StockAdd.html')
-
+    
+    
+@login_required(login_url="logIn")
+def stockAddForm(request):
+    if request.method=='POST':
+        print("Form Enter")
+        currentUser=request.user
+        itemName=request.POST['itemName']
+        amount=request.POST['amount']
+        quantity=request.POST['quantity']
+        dateAdded=request.POST['dateAdded']
+        supplier=request.POST['supplier']
+        supplierNo=request.POST['supplierNo']
+        supplierEmail=request.POST['supplierEmail']
+        image = request.FILES.get('image')  
+        saveStock=StockDetails(user=currentUser,itemName=itemName,amount=amount,quantity=quantity,dateAdded=dateAdded,supplier=supplier,supplierNo=supplierNo,supplierEmail=supplierEmail,image=image)
+        saveStock.save()
+        return redirect('stockDashboard')
+        
+@login_required(login_url="logIn")
 def profile(request):
     return render(request,"Profile.html")
-    
+ 
+@login_required(login_url="logIn")    
 def lowStockList(request):
-    return render(request,"LowStockList.html")
-    
+    currentUser=request.user
+    lowStockList=StockDetails.objects.filter(Q(user=currentUser) & Q(quantity__lt=100))
+    return render(request, 'LowStockList.html', {'lowStockList': lowStockList})
+
+@login_required(login_url="logIn")    
 def stockList(request):
-    return render(request,"StockList.html")
-    
+    currentUser=request.user
+    stockList=StockDetails.objects.filter(user=currentUser)
+    print(stockList)
+    print(currentUser)
+    return render(request,"StockList.html",{'stockList':stockList}) 
+
+@login_required(login_url="logIn")
 def stockDashboard(request):
     return render(request,"StockDashboard.html")
-    
+ 
+@login_required(login_url="logIn")   
 def stockModify(request):
     action = request.GET.get('action')
-    return render(request, 'StockModify.html', {'action': action})
     
-def stockUpdate(request):
-    return render(request,"StockUpdate.html")
+    currentUser=request.user
+    stockList=StockDetails.objects.filter(user=currentUser)
+    print(stockList)
+    print(currentUser)
+    return render(request,"StockModify.html",{'stockList':stockList,'action': action}) 
 
+@login_required(login_url="logIn")
+def stockUpdate(request,id):
+    stockToUpdate=StockDetails.objects.get(id=id)
+    dateAdded = stockToUpdate.dateAdded
+    return render(request,"StockUpdate.html",{'id':stockToUpdate,'dateAdded':dateAdded})
+
+@login_required(login_url="logIn")
+def stockUpdateForm(request,id):
+        if request.method=='POST':
+            stockToUpdate=StockDetails.objects.get(id=id)
+            stockToUpdate.user=request.user
+            stockToUpdate.itemName=request.POST['itemName']
+            stockToUpdate.amount=request.POST['amount']
+            stockToUpdate.quantity=request.POST['quantity']
+            stockToUpdate.dateAdded=request.POST['dateAdded']
+            stockToUpdate.supplier=request.POST['supplier']
+            stockToUpdate.supplierNo=request.POST['supplierNo']
+            stockToUpdate.supplierEmail=request.POST['supplierEmail']
+            stockToUpdate.image=request.FILES['image']
+            stockToUpdate.save()
+        return redirect('stockDashboard')
+        
+@login_required(login_url="logIn")
+def stockDelete(request,id):
+    stockToDelete=StockDetails.objects.get(id=id)
+    stockToDelete.delete()
+    return redirect('stockDashboard')
+
+@login_required(login_url="logIn")
 def supplierList(request):
     currentUser=request.user
     supplierList=SupplierDetails.objects.filter(user=currentUser)
@@ -74,9 +136,11 @@ def supplierList(request):
     print(currentUser)
     return render(request,"SupplierList.html",{'supplierList':supplierList}) 
 
+@login_required(login_url="logIn")
 def supplierDashboard(request):
     return render(request,"SupplierDashboard.html")
 
+@login_required(login_url="logIn")
 def supplierModify(request):
     action = request.GET.get('action')
     

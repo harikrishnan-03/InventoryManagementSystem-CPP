@@ -17,76 +17,58 @@
     <!-- Current Stock List -->
     <div class="mx-auto">
         <div class="row mx-auto pt-3 pl-3 pr-3 pb-3">
-
+            {% for i in stockList %}
             <div class="col-12 col-md-6 col-lg-3 mb-4">
                 <div class="shadow card">
                     <div class="mx-auto pt-3 pb-3">
-                        <img class="shadow stockImage img-fluid card-img-top" src="{% static 'images/steel.jpg' %}" alt="Card image cap">
+                        {% if i.image %}
+                        <img src="{{ i.image.url }}" class="shadow stockImage img-fluid card-img-top" alt="Book image">
+                        {% else %}
+                        No image available
+                        {% endif %}
+
                     </div>
                     <ul class="list-group list-group-flush">
                         <li class="hoverStock list-group-item d-flex justify-content-between">
                             <span style="width: 35%;">Item </span>
                             <span style="width:4%;">:</span>
-                            <span style="width: 61%; text-align: left;">steel</span>
+                            <span style="width: 61%; text-align: left;">{{ i.itemName }}</span>
                         </li>
                         <li class="hoverStock list-group-item d-flex justify-content-between">
                             <span style="width: 35%;">Quantity </span>
                             <span style="width:4%;">:</span>
-                            <span style="width: 61%; text-align: left;">100Kg</span>
-                        </li>
-                        <li class="hoverStock list-group-item d-flex justify-content-between">
-                            <span style="width: 35%;">Date Added</span>
-                            <span style="width:4%;">:</span>
-                            <span style="width: 61%; text-align: left;">31-05-2025</span>
-                        </li>
-                        <li class="hoverStock list-group-item d-flex justify-content-between">
-                            <span style="width: 35%;">Supplier </span>
-                            <span style="width:4%;">:</span>
-                            <span style="width: 61%; text-align: left;">Rajesh dealers</span>
+                            <span style="width: 61%; text-align: left;">{{ i.quantity }}</span>
                         </li>
                         <li class="hoverStock list-group-item d-flex justify-content-between">
                             <span style="width: 35%;">Amount (in €) </span>
                             <span style="width:4%;">:</span>
-                            <span style="width: 61%; text-align: left;">1000000</span>
+                            <span style="width: 61%; text-align: left;">{{ i.amount }}</span>
+                        </li>
+                        <li class="hoverStock list-group-item d-flex justify-content-between">
+                            <span style="width: 35%;">Date Added</span>
+                            <span style="width:4%;">:</span>
+                            <span style="width: 61%; text-align: left;">{{ i.dateAdded }}</span>
+                        </li>
+                        <li class="hoverStock list-group-item d-flex justify-content-between">
+                            <span style="width: 35%;">Supplier </span>
+                            <span style="width:4%;">:</span>
+                            <span style="width: 61%; text-align: left;">{{ i.dateAdded }}</span>
+                        </li>
+                        <li class="hoverStock list-group-item d-flex justify-content-between">
+                            <span style="width: 35%;">Supplier No.</span>
+                            <span style="width:4%;">:</span>
+                            <span style="width: 61%; text-align: left;">{{ i.supplierNo }}</span>
+                        </li>
+                        <li class="hoverStock list-group-item d-flex justify-content-between">
+                            <span style="width: 35%;">Supplier Email</span>
+                            <span style="width:4%;">:</span>
+                            <span style="width: 61%; text-align: left;">{{ i.supplierEmail }}</span>
                         </li>
                     </ul>
                 </div>
             </div>
+            {% endfor %}
 
-            <div class="col-12 col-md-6 col-lg-3 mb-4">
-                <div class="shadow card">
-                    <div class="mx-auto pt-3 pb-3">
-                        <img class="shadow stockImage img-fluid card-img-top" src="{% static 'images/steel.jpg' %}" alt="Card image cap">
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="hoverStock list-group-item d-flex justify-content-between">
-                            <span style="width: 35%;">Item </span>
-                            <span style="width:4%;">:</span>
-                            <span style="width: 61%; text-align: left;">steel</span>
-                        </li>
-                        <li class="hoverStock list-group-item d-flex justify-content-between">
-                            <span style="width: 35%;">Quantity </span>
-                            <span style="width:4%;">:</span>
-                            <span style="width: 61%; text-align: left;">100Kg</span>
-                        </li>
-                        <li class="hoverStock list-group-item d-flex justify-content-between">
-                            <span style="width: 35%;">Date Added</span>
-                            <span style="width:4%;">:</span>
-                            <span style="width: 61%; text-align: left;">31-05-2025</span>
-                        </li>
-                        <li class="hoverStock list-group-item d-flex justify-content-between">
-                            <span style="width: 35%;">Supplier </span>
-                            <span style="width:4%;">:</span>
-                            <span style="width: 61%; text-align: left;">Rajesh dealers</span>
-                        </li>
-                        <li class="hoverStock list-group-item d-flex justify-content-between">
-                            <span style="width: 35%;">Amount (in €) </span>
-                            <span style="width:4%;">:</span>
-                            <span style="width: 61%; text-align: left;">1000000</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
 
         </div>
 

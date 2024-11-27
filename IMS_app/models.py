@@ -30,15 +30,17 @@ class UserData(AbstractBaseUser,PermissionsMixin):
         return self.email
         
 
-#Stock
-# class StockDetails(models.Model):
-#     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-#     itemName=models.CharField(max_length=120)
-#     amount=models.IntegerField()
-#     quantity=models.IntegerField()
-#     dateAdded=models.DateField()
-#     supplier=models.CharField(max_length=120)
-#     image = models.ImageField(upload_to='stockimage/')
+# Stock
+class StockDetails(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    itemName=models.CharField(max_length=120)
+    amount=models.IntegerField()
+    quantity=models.IntegerField()
+    dateAdded=models.DateField()
+    supplier=models.CharField(max_length=120)
+    supplierNo=models.IntegerField()
+    supplierEmail=models.EmailField()
+    image = models.ImageField(upload_to='stock/')
     
 
 

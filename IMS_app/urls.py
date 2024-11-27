@@ -1,7 +1,8 @@
 from django.contrib import admin
 from django.urls import path
 from . import views
-
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     
@@ -20,8 +21,11 @@ urlpatterns = [
     path('stockdashboard',views.stockDashboard,name="stockDashboard"),
     path('stockmodify/', views.stockModify, name='stockModify'),
     path('stockadd',views.stockAdd,name="stockAdd"),
-    path('stockupdate',views.stockUpdate,name="stockUpdate"),
-
+    path('stockaddform',views.stockAddForm,name="stockAddForm"),
+    path('stockupdate/<int:id>',views.stockUpdate,name="stockUpdate"),
+    path('stockupdateform/<int:id>',views.stockUpdateForm,name="stockUpdateForm"),
+    path('stockdelete/<int:id>',views.stockDelete,name="stockDelete"),
+    
     path('supplierlist',views.supplierList,name="supplierList"),
     path('supplierdashboard',views.supplierDashboard,name="supplierDashboard"),
     path('suppliermodify/', views.supplierModify, name='supplierModify'),
@@ -33,3 +37,6 @@ urlpatterns = [
 
 ]
 
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
