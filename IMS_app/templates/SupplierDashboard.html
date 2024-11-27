@@ -1,0 +1,58 @@
+{% extends 'NavBar.html' %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+</head>
+
+<body>
+    {% block content %}
+    <div class="ml-3">
+        <a href="{% url 'dashboard' %}" type="button" class="mt-3 btnSuccess btn">Back
+        </a>
+        <h2 class="text-center">Add/Update/Delete Supplier Details</h2>
+    </div>
+
+    <div class="container  mx-auto">
+        <div class="row ml-5" style="padding-top:100px">
+            <div class="col-md-4">
+                <a href="{% url 'supplierAdd' %}" style="text-decoration: none; color: #03AED2">
+                    <div class="hoverButton shadow card" style="width: 80%; height: 90%">
+                        <img style="height: 150px; width: 160px" class="img-fluid card-img-top mt-3 mx-auto" src="{% static 'images/Operation/addSupplier.png' %}" alt="Card Image 1" />
+                        <div class="card-body mx-auto">
+                            <h5 class="card-title">Add Supplier Details</h5>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-4">
+                <a href="{% url 'supplierModify' %}?action=updateSupplier" style="text-decoration: none; color: #03AED2">
+                    <div class="hoverButton shadow card" style="width: 80%; height: 90%">
+                        <img style="height: 150px; width: 160px" class="img-fluid card-img-top mt-3 mx-auto" src="{% static 'images/Operation/updateSupplier.png' %}" alt="Card Image 1" />
+                        <div class="card-body mx-auto">
+                            <h5 class="card-title">Update Supplier Details</h5>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-4">
+                <a href="{% url 'supplierModify' %}?action=deleteSupplier" style="text-decoration: none; color: #03AED2">
+                    <div class="hoverButton shadow card" style="width: 80%; height: 90%">
+                        <img style="height: 150px; width: 160px" class="img-fluid card-img-top mt-3 mx-auto" src="{% static 'images/Operation/deleteSupplier.png' %}" alt="Card Image 1" />
+                        <div class="card-body mx-auto">
+                            <h5 class="card-title">Delete Supplier Details</h5>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+    {% endblock %}
+</body>
+
+</html>

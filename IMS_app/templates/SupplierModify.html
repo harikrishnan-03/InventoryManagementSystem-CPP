@@ -1,0 +1,65 @@
+{% extends 'NavBar.html' %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+</head>
+
+<body>
+    {% block content %}
+    <div class="ml-3">
+        <a href="{% url 'supplierDashboard' %}" type="button" class="mt-3 btnSuccess btn">Back
+        </a>
+        {% if action == 'updateSupplier' %}
+        <h2 class="text-center">Update a Supplier</h2>
+        {% elif action == 'deleteSupplier' %}
+        <h2 class="text-center">Delete a Supplier</h2>
+        {% endif %}
+    </div>
+
+    <!-- Table for displaying current supplier list -->
+    <div class="shadow card ml-5 mr-5 mt-4 timeCenterCss">
+        <table class="table table-hover mt-0 my-0">
+            <thead>
+                <tr>
+                    <th scope="col">Sl. No.</th>
+                    <th scope="col">Supplier Name</th>
+                    <th scope="col">Item</th>
+                    <th scope="col">Date Added</th>
+                    <th scope="col">Mobile No.</th>
+                    <th scope="col">Email</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in supplierList %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ i.supplierName }}</td>
+                    <td>{{ i.item }}</td>
+                    <td>{{ i.dateAdded }}</td>
+                    <td>{{ i.phoneNumber }}</td>
+                    <td>{{ i.email }}</td>
+
+                    <td>
+                        {% if action == 'updateSupplier' %}
+                        <a href="{% url 'supplierUpdate' i.id %}" class="mr-4 btn-success btn" type="button">
+                            Update
+                        </a>
+                        {% elif action == 'deleteSupplier' %}
+                        <a href="{% url 'supplierDelete' i.id %}" class="mr-4 btn-danger btn" type="button">
+                            Delete
+                        </a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% endblock %}
+</body>
+
+</html>

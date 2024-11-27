@@ -1,0 +1,69 @@
+{% extends 'NavBar.html' %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+</head>
+
+<body>
+    {% block content %}
+
+    <div class="container w-50 mx-auto  pb-4" style="padding-top:70px">
+        <div class="shadow  card">
+            <div class="card-body ">
+                <form enctype="multipart/form-data">
+                    <div class="form-group">
+                        <div class="d-flex justify-content-center logIn loginFont">
+                            <h2>Update Stock </h2>
+                        </div>
+                        <label for="InputEmail1">Item Name</label>
+                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required />
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="">Amount (in Euro)</label>
+                            <input type="number" class="form-control" id="" required />
+                        </div>
+                        <div class="form-group col-md-6 ">
+                            <label for="">Quantity (Kg or L)</label>
+                            <input type="number" class="form-control" id="" required />
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="">Date Added</label>
+                            <input type="date" class="form-control" id="" required />
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="">Supplier Name</label>
+                            <input type="text" class="form-control" id="" required />
+                        </div>
+                    </div>
+                    <div class="form-group mx-auto pt-2">
+                        <label for="">Item Image</label>
+                        <input type="file" id="imageUpload" name="image" accept="image/*" required>
+                    </div>
+
+                    <div class="d-flex justify-content-center loginButton">
+                        <div>
+                            <a href="{% url 'stockDashboard' %}" type="button" class="mr-3 btn btn-danger btn">
+                                Cancel
+                            </a>
+                        </div>
+                        <div>
+                            <button type="submit" class="btnSuccess btn btn-success">
+                                Update
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    {% endblock %}
+</body>
+
+</html>

@@ -1,0 +1,59 @@
+{% extends 'NavBar.html' %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+</head>
+
+<body>
+    {% block content %}
+    <div class="ml-3">
+        <a href="{% url 'stockDashboard' %}" type="button" class="mt-3 btnSuccess btn">Back
+        </a>
+        {% if action == 'update' %}
+        <h2 class="text-center">Update a Stock</h2>
+        {% elif action == 'delete' %}
+        <h2 class="text-center">Delete a Stock</h2>
+        {% endif %}
+    </div>
+
+    <!-- Table for displaying current stock list -->
+    <div class="shadow card ml-5 mr-5 mt-4 timeCenterCss">
+        <table class="table table-hover mt-0 my-0">
+            <thead>
+                <tr>
+                    <th scope="col">Item Name</th>
+                    <th scope="col">Quantity (Kg or L)</th>
+                    <th scope="col">Supplier Name</th>
+                    <th scope="col">Date Added</th>
+                    <th scope="col">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Paracetamol</td>
+                    <td>250Kg</td>
+                    <td>Rajesh Medicals</td>
+                    <td>31-05-2024</td>
+                    <td>254</td>
+                    <td>
+                        {% if action == 'update' %}
+                        <a href="{% url 'stockUpdate' %}" class="mr-4 btn-success btn" type="button">
+                            Update
+                        </a>
+                        {% elif action == 'delete' %}
+                        <button href="#" class="mr-4 btn-danger btn" type="button">
+                            Delete
+                        </button>
+                        {% endif %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    {% endblock %}
+</body>
+
+</html>

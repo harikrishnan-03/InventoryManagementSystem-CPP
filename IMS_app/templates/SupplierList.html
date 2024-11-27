@@ -1,0 +1,57 @@
+{% extends 'NavBar.html' %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+</head>
+
+<body>
+    {% block content %}
+    <div class="ml-3">
+        <a href="{% url 'dashboard' %}" type="button" class="mt-3 btnSuccess btn">Back
+        </a>
+        <h2 class="text-center">Current Supplier Details</h2>
+    </div>
+
+    <!-- Current Stock List -->
+    <div class="mx-auto">
+        <div class="row mx-auto pt-3 pl-3 pr-3 pb-3">
+            {% for i in supplierList %}
+            <div class="col-12 col-md-6 col-lg-3 mb-4">
+                <div class="shadow card">
+                    <div class="card-body mx-auto">
+                        <h5 class="font-weight-bold card-title">{{ i.supplierName }}</h5>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="hoverStock list-group-item d-flex justify-content-between">
+                            <span style="width: 35%;">Item </span>
+                            <span style="width: 4%;">: </span>
+                            <span style="width: 61%; text-align: left;">{{ i.item }}</span>
+                        </li>
+                        <li class="hoverStock list-group-item d-flex justify-content-between">
+                            <span style="width: 35%;">Date Added</span>
+                            <span style="width: 4%;">: </span>
+                            <span style="width: 61%; text-align: left;">{{ i.dateAdded }}</span>
+                        </li>
+                        <li class="hoverStock list-group-item d-flex justify-content-between">
+                            <span style="width: 35%;">Email</span>
+                            <span style="width: 4%;">: </span>
+                            <span style="width: 61%; text-align: left;">{{ i.email }}</span>
+                        </li>
+                        <li class="hoverStock list-group-item d-flex justify-content-between">
+                            <span style="width: 35%;">Mob Number </span>
+                            <span style="width: 4%;">: </span>
+                            <span style="width: 61%; text-align: left;">{{ i.phoneNumber }}</span>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endblock %}
+</body>
+
+</html>

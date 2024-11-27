@@ -1,0 +1,154 @@
+{% extends 'Index.html' %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+</head>
+
+<body>
+    {% block content %}
+    <section class="SectionCarousal">
+        <nav class="mb-2 navbar NavbarBody navbar-expand-lg navbar-light">
+            <a class="navbar-brand" href="{% url 'homePage' %}">
+                <img class="logo img-fluid" src="{% static 'images/logo.png' %}" />
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item pr-4">
+                        <a class="nav-link text-white h6" href="{% url 'logIn' %}">Log In</a>
+                    </li>
+                    <li class="nav-item pr-4">
+                        <a class="nav-link text-white h6" href="#about">About</a>
+                    </li>
+                    <li class="nav-item pr-4">
+                        <a class="nav-link text-white h6" href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+
+        <div class="container-fluid p-0 ">
+            <div class="row g-0">
+                <div class="col-4 pt-5 pl-5">
+                    <div class="container pt-5">
+                        <div class="card homeCard">
+                            <img class="pl-5 pt-5" src="{% static 'images/home.gif' %}" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-8 carousalHome mx-auto">
+                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                        </ol>
+                        <div class="carousel-inner ">
+                            <div class="carousel-item active">
+                                <img class="img-fluid d-block w-100" src="{% static 'images/carousal/carousal1.PNG' %}" alt="First slide" />
+                            </div>
+                            <div class="carousel-item">
+                                <img class="img-fluid d-block w-100" src="{% static 'images/carousal/carousal2.png' %}" alt="Third slide" />
+                            </div>
+                            <div class="carousel-item">
+                                <img class="img-fluid d-block w-100" src="{% static 'images/carousal/carousal3.PNG' %}" alt="Second slide" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="sectionAbout mb-5" id="about">
+        <h1 class="pt-5" style="text-align: center; color: #03AED2">Features</h1>
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="shadow card" style="width: 100%; height: 90%">
+                        <div class="mx-auto">
+                            <img style="height: 150px" class="img-fluid card-img-top" src="{% static 'images/homepage/inventory.gif' %}" alt="Card Image 1" />
+                        </div>
+                        <div class="card-body mx-auto">
+                            <h5 class="card-title" style="color: #03AED2">Inventory Stock Details</h5>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="shadow card" style="width: 100%; height: 90%">
+                        <div class="mx-auto">
+                            <img style="height: 150px" src="{% static 'images/homepage/supplier.gif' %}" class="card-img-top" alt="Card Image 3" />
+                        </div>
+                        <div class="card-body mx-auto">
+                            <h5 class="card-title" style="color: #03AED2">Supplier Details</h5>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-md-4">
+                    <div class="shadow card" style="width: 100%; height: 90%">
+                        <div class="mx-auto">
+                            <img style="height: 150px" src="{% static 'images/homepage/notification.gif' %}" class="card-img-top" alt="Card Image 2" />
+                        </div>
+                        <div class="card-body mx-auto">
+                            <h5 class="card-title" style="color: #03AED2">Low Stock Warning</h5>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="shadow card mx-auto" style="width: 400px; height: 90%">
+                        <div class="mx-auto">
+                            <img style="height: 150px" src="{% static 'images/homepage/stockList.gif' %}" class="card-img-top" alt="Card Image 2" />
+                        </div>
+                        <div class="card-body mx-auto">
+                            <h5 class="card-title" style="color: #03AED2">Add/Update/Delete Inventory Stocks</h5>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="shadow card mx-auto" style="width: 400px; height: 90%">
+                        <div class="mx-auto">
+                            <img style="height: 150px" class="img-fluid card-img-top" src="{% static 'images/homepage/supplierList.gif' %}" alt="Card Image 1" />
+                        </div>
+                        <div class="card-body mx-auto">
+                            <h5 class="card-title" style="color: #03AED2">Add/Update/Delete Supplier Details</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="contact" class=" SectionContact">
+        <div class="text-center pt-4 mt-3" style="color: white">
+            <h3>For support and assistance contact</h3>
+            <img class="img-fluid" src="{% static 'images/@.gif' %}" style="height: 60px; width: 80px" />
+            <h4>support@inventorymanagementsystem.com</h4>
+        </div>
+    </section>
+
+
+    <footer>
+        <div class="text-center p-3">
+            <b> © 2024 Copyright: InventoryManagementSystem </b>
+        </div>
+    </footer>
+    {% endblock %}
+</body>
+
+</html>

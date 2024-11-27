@@ -1,0 +1,78 @@
+{% extends 'NavBar.html' %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+</head>
+
+<body>
+    {% block content %}
+    <div class="container mt-5 mx-auto">
+        <div class="row ml-2">
+            <div class="col-md-4">
+                <a href="{% url 'stockList' %}" style="text-decoration: none; color: #03AED2">
+                    <div class="hoverButton shadow card" style="width: 80%; height: 90%">
+                        <img style="height: 150px; width: 160px" class="img-fluid card-img-top mt-3 mx-auto" src="{% static 'images/dashboard/stocks.png' %}" alt="Card Image 1" />
+                        <div class="card-body mx-auto">
+                            <h5 class="card-title">Stock Details</h5>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-4">
+                <a href="{% url 'supplierList' %}" style="text-decoration: none; color: #03AED2">
+                    <div class="hoverButton shadow card" style="width: 80%; height: 90%">
+                        <img style="height: 150px; width: 160px" src="{% static 'images/dashboard/supplierList.png' %}" class="mx-auto mt-3 card-img-top" alt="Card Image 3" />
+                        <div class="card-body mx-auto">
+                            <h5 class="card-title">Supplier Details</h5>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-4">
+                <a href="{% url 'lowStockList' %}" style="text-decoration: none; color: #03AED2">
+                    <div class="hoverButton shadow card" style="width: 80%; height: 90%">
+                        <img style="height: 150px; width: 160px" class="img-fluid card-img-top mt-3 mx-auto" src="{% static 'images/dashboard/lowStock.png' %}" alt="Card Image 1" />
+                        <div class="card-body mx-auto">
+                            <h5 class="card-title">Low Stocks</h5>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="container mt-5 mx-auto">
+        <div class="row ml-5">
+            <div class="col-md-6">
+                <a href="{% url 'stockDashboard' %}" style="text-decoration: none; color: #03AED2">
+                    <div class="hoverButton shadow card" style="width: 80%; height: 90%">
+                        <img style="height: 150px; width: 160px" src="{% static 'images/dashboard/stockList.png' %}" class="mx-auto mt-3 card-img-top" alt="Card Image 2" />
+                        <div class="card-body mx-auto">
+                            <h5 class="card-title">Add/Update/Delete Stock Details</h5>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-6">
+                <a href="{% url 'supplierDashboard' %}" style="text-decoration: none; color: #03AED2">
+                    <div class="hoverButton shadow card" style="width: 80%; height: 90%">
+                        <img style="height: 150px; width: 160px" class="mx-auto mt-3 card-img-top" src="{% static 'images/dashboard/supplier.png' %}" alt="Card Image 1" />
+                        <div class="card-body mx-auto">
+                            <h5 class="card-title">Add/Update/Delete Supplier Details</h5>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    {% endblock %}
+</body>
+
+</html>

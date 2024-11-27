@@ -1,0 +1,66 @@
+{% extends 'NavBar.html' %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+</head>
+
+<body>
+    {% block content %}
+
+    <div class="container w-50 mx-auto  pb-4" style="padding-top:90px">
+        <div class="shadow  card">
+            <div class="card-body ">
+                <form action="{% url 'supplierAddForm' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <div class="d-flex justify-content-center logIn loginFont">
+                            <h2>Add a Supplier</h2>
+                        </div>
+                        <label for="InputEmail1">Supplier Name</label>
+                        <input type="text" class="form-control" name="supplierName" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Supplier Name" required />
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for=""> Item</label>
+                            <input type="text" class="form-control" name="item" placeholder="Enter Item " required />
+                        </div>
+                        <div class="form-group col-md-6 ">
+                            <label for="">Date Added</label>
+                            <input type="date" name="dateAdded" class="form-control" required />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="">Email</label>
+                            <input type="email" name="email" class="form-control" placeholder="Enter Email" required />
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="">Mobile Number</label>
+                            <input type="number" name="phoneNumber" class="form-control" placeholder="Enter Phone Number" required />
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center loginButton">
+                        <div>
+                            <a href="{% url 'supplierDashboard' %}" type="button" class="mr-3 btn btn-danger btn">
+                                Cancel
+                            </a>
+                        </div>
+                        <div>
+                            <button type="submit" class="btnSuccess btn btn-success">
+                                Add
+                            </button>
+                        </div>
+                    </div>
+
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    {% endblock %}
+</body>
+
+</html>

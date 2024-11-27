@@ -1,0 +1,90 @@
+{% extends 'Index.html' %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+</head>
+
+<body>
+    {% block content %}
+    <nav class="mb-2 navbar NavbarBody navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="{% url 'homePage' %}">
+            <img class="logo img-fluid" src="{% static 'images/logo.png' %}" />
+        </a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item pr-4">
+                    <a class="nav-link text-white h6" href="{% url 'homePage' %}">Home</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container w-50 mx-auto  pb-4" style="padding-top:110px">
+        <div class="shadow  card">
+            <div class="card-body ">
+                <form action="{% url 'logIn' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <div class="d-flex justify-content-center logIn loginFont">
+                            <h2>Log In</h2>
+                        </div>
+                        <label for="InputEmail1">Email</label>
+                        {{ form.username }}
+                        <div>
+                            {% if form.username.errors %}
+                            <div class="pl-1 text-danger">
+                                {% for error in form.username.errors %}
+                                <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Password</label>
+                        {{ form.password }}
+                        <div>
+                            {% if form.password.errors %}
+                            <div class="pl-1 text-danger">
+                                {% for error in form.password.errors %}
+                                <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    {% if form.non_field_errors %}
+                    <div class="text-danger">{{ form.non_field_errors }}</div>
+                    {% endif %}
+                    <div class="d-flex justify-content-center loginButton">
+                        <div>
+                            <a href="{% url 'homePage' %}" type="button" class="mr-3 btn btn-danger btn">
+                                Cancel
+                            </a>
+                        </div>
+                        <div>
+                            <button type="submit" class="btnSuccess btn btn-success">
+                                Login
+                            </button>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center pt-3">
+                        <p class="mr-3">Don't have an account?</p>
+                        <a href="{% url 'signUp' %}" style="text-decoration: none">Sign Up</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    {% endblock %}
+</body>
+
+</html>
