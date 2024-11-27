@@ -4,6 +4,8 @@ from django.contrib.auth import login,logout,authenticate
 from django.contrib.auth.decorators import login_required
 from . models import *
 from django.db.models import Q
+import boto3
+from django.conf import settings
 
 # Create your views here.
 def logIn(request):
@@ -38,9 +40,24 @@ def logOut(request):
     logout(request)
     return redirect('homePage')
     
-    
 def homePage(request):
     return render(request,"HomePage.html")
+    
+@login_required(login_url="logIn")
+def profile(request):
+    currentUser=request.user
+    filterUser=UserData.objects.filter(email=currentUser)
+    return render(request,"Profile.html",{'filterUser':filterUser})
+    
+@login_required(login_url="logIn")
+def updateProfileForm(request,id):
+        if request.method=='POST':
+            profileToUpdate=UserData.objects.get(id=id)
+            profileToUpdate.name=request.POST['name']
+            profileToUpdate.email=request.POST['email']
+            profileToUpdate.mobileNumber=request.POST['mobileNumber']
+            profileToUpdate.save()
+        return redirect('dashboard')
     
 @login_required(login_url="logIn")
 def dashboard(request):
@@ -67,11 +84,7 @@ def stockAddForm(request):
         saveStock=StockDetails(user=currentUser,itemName=itemName,amount=amount,quantity=quantity,dateAdded=dateAdded,supplier=supplier,supplierNo=supplierNo,supplierEmail=supplierEmail,image=image)
         saveStock.save()
         return redirect('stockDashboard')
-        
-@login_required(login_url="logIn")
-def profile(request):
-    return render(request,"Profile.html")
- 
+    
 @login_required(login_url="logIn")    
 def lowStockList(request):
     currentUser=request.user
@@ -110,6 +123,8 @@ def stockUpdate(request,id):
 def stockUpdateForm(request,id):
         if request.method=='POST':
             stockToUpdate=StockDetails.objects.get(id=id)
+            oldImagePath = stockToUpdate.image.name
+            
             stockToUpdate.user=request.user
             stockToUpdate.itemName=request.POST['itemName']
             stockToUpdate.amount=request.POST['amount']
@@ -118,13 +133,54 @@ def stockUpdateForm(request,id):
             stockToUpdate.supplier=request.POST['supplier']
             stockToUpdate.supplierNo=request.POST['supplierNo']
             stockToUpdate.supplierEmail=request.POST['supplierEmail']
-            stockToUpdate.image=request.FILES['image']
+
+            # Check if a new image is being uploaded
+            if 'image' in request.FILES:
+                stockToUpdate.image = request.FILES['image']
+    
             stockToUpdate.save()
+            
+            # If a new image was uploaded, delete the old image from S3
+            if 'image' in request.FILES:
+                s3_client = boto3.client(
+                    's3',
+                    aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+                    aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+                    aws_session_token=settings.AWS_SESSION_TOKEN,
+                )
+                bucket_name = settings.AWS_STORAGE_BUCKET_NAME
+                try:
+                    s3_client.delete_object(Bucket=bucket_name, Key=oldImagePath)
+                    print("Old image deleted from S3")
+                except Exception as e:
+                    print(f"Error deleting previous image from S3: {e}")
+
+            
         return redirect('stockDashboard')
         
 @login_required(login_url="logIn")
 def stockDelete(request,id):
     stockToDelete=StockDetails.objects.get(id=id)
+    
+    imagePath = stockToDelete.image.name 
+    print("image",imagePath)
+
+    # Create an S3 client
+    s3_client = boto3.client(
+        's3',
+        aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+        aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+        aws_session_token=settings.AWS_SESSION_TOKEN,
+    )
+
+    # Delete the image file from S3
+    bucket_name = settings.AWS_STORAGE_BUCKET_NAME  # S3 bucket name
+    try:
+        print("Delete from S3")
+        s3_client.delete_object(Bucket=bucket_name, Key=imagePath)
+    except Exception as e:
+        print(f"Error deleting image from S3: {e}")
+    
     stockToDelete.delete()
     return redirect('stockDashboard')
 

@@ -13,8 +13,10 @@ urlpatterns = [
     path('logout',views.logOut,name="logOut"),
     
     path('signup',views.signUp,name="signUp"),
-    path('profile',views.profile,name="profile"),
     
+    path('profile',views.profile,name="profile"),
+    path('updateprofileform/<int:id>',views.updateProfileForm,name="updateProfileForm"),
+
     path('lowstocklist',views.lowStockList,name="lowStockList"),
     
     path('stocklist',views.stockList,name="stockList"),

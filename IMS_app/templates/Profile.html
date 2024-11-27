@@ -31,15 +31,17 @@
         <div class="shadow card">
             <div class="card-body">
                 <h5 class="card-title text-center">Profile</h5>
-                <form class="needs-validation" novalidate>
+                {% for i in filterUser %}
+                <form action="{% url 'updateProfileForm' i.id %}" method="POST">
+                    {% csrf_token %}
                     <label class="form-label pt-3" for="lName">Name</label>
-                    <input type="text" class="form-control" id="validationCustom02" placeholder=" Name" required />
+                    <input type="text" class="form-control" value="{{ i.name }}" placeholder=" Name" name="name" required />
                     <label class="form-label ml-1 pt-2" for="InputEmail1">Email</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter Email" required />
+                    <input type="email" class="form-control" id="exampleInputEmail1" value="{{ i.email }}" name="email" placeholder="Enter Email" required />
                     <label class="form-label ml-1 pt-3" for="phone">Mobile Number</label>
-                    <input type="tel" class="form-control" id="phone" pattern="^\d{9}$" placeholder="Enter Mobile Number" required />
+                    <input type="tel" class="form-control" id="phone" pattern="^\d{9}$" value="{{ i.mobileNumber }}" name="mobileNumber" placeholder="Enter Mobile Number" required />
             </div>
-
+            {% endfor %}
             <div class="d-flex justify-content-center loginButton my-3">
                 <button class="btnSuccess btn btn-success" type="submit">
                     Save
