@@ -41,6 +41,8 @@ class StockDetails(models.Model):
     supplierNo=models.IntegerField()
     supplierEmail=models.EmailField()
     image = models.ImageField(upload_to='stock/')
+    class Meta:
+        db_table = "StockDetails" 
     
 
 

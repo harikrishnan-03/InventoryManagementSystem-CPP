@@ -3,9 +3,11 @@ from .forms import UserForm, LoginAuthentication
 from django.contrib.auth import login,logout,authenticate
 from django.contrib.auth.decorators import login_required
 from . models import *
-from django.db.models import Q
 import boto3
 from django.conf import settings
+from lowStockLib.checkerStock import StockChecker
+import json
+from django.http import JsonResponse
 
 # Create your views here.
 def logIn(request):
@@ -87,9 +89,40 @@ def stockAddForm(request):
     
 @login_required(login_url="logIn")    
 def lowStockList(request):
-    currentUser=request.user
-    lowStockList=StockDetails.objects.filter(Q(user=currentUser) & Q(quantity__lt=100))
-    return render(request, 'LowStockList.html', {'lowStockList': lowStockList})
+    user_id=request.user.id   #Gets current user email
+    
+    db_name = "ims_db"
+    table_name = "StockDetails"
+    threshold = 50
+
+    # AWS RDS credentials
+    rds_host = "x23297948-ims.c9206kckwag4.us-east-1.rds.amazonaws.com"
+    rds_user = "root"
+    rds_password = "kausthubham"
+    
+    # Construct the SQL query
+    query = f"""
+        SELECT itemName, supplier, supplierEmail, dateAdded, quantity
+        FROM {table_name}
+        WHERE quantity < %s AND user_id = %s
+    """
+    params = (threshold, user_id)
+
+    # Initialize StockChecker with all required arguments
+    stock_checker = StockChecker(
+        db_name=db_name,
+        host=rds_host,
+        user=rds_user,
+        password=rds_password,
+        table_name=table_name,
+        threshold=threshold,
+        user_id=user_id
+    )
+
+    # Execute the query
+    low_stock_items = stock_checker.execute_query(query, params)
+    return render(request, 'LowStockList.html', {'low_stock_items': low_stock_items})
+
 
 @login_required(login_url="logIn")    
 def stockList(request):
