@@ -19,6 +19,10 @@ urlpatterns = [
 
     path('lowstocklist',views.lowStockList,name="lowStockList"),
     
+    path('community',views.communityPage,name="communityPage"),
+    path('addpost',views.addPost,name="addPost"),
+    path('addpostform',views.addPostForm,name="addPostForm"),
+
     path('stocklist',views.stockList,name="stockList"),
     path('stockdashboard',views.stockDashboard,name="stockDashboard"),
     path('stockmodify/', views.stockModify, name='stockModify'),
@@ -37,6 +41,9 @@ urlpatterns = [
     path('supplierupdateform/<int:id>',views.supplierUpdateForm,name="supplierUpdateForm"),
     path('supplierdelete/<int:id>',views.supplierDelete,name="supplierDelete"),
 
+    path('generate_pdf/', views.generate_pdf, name='generate_pdf'),
+    path('download_pdf/', views.download_pdf, name='download_pdf'),
+    
 ]
 
 

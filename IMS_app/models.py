@@ -55,3 +55,12 @@ class SupplierDetails(models.Model):
     dateAdded=models.DateField()
     email=models.EmailField()
     phoneNumber=models.IntegerField()
+    
+ #Community  
+class Community(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    heading=models.CharField(max_length=120)
+    post=models.TextField(max_length=150)
+
+    class Meta:
+        db_table = "Community" 

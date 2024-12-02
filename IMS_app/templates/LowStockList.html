@@ -27,7 +27,6 @@
                         <th scope="col">Supplier Name</th>
                         <th scope="col">Supplier Email</th>
                         <th scope="col">Date Added</th>
-                        <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -35,11 +34,10 @@
                     <tr>
                         <td>{{ forloop.counter }}</td>
                         <td>{{ item.itemName }}</td>
-                        <td>{{ item.quantity }}</td>
+                        <td style="color: red;">{{ item.quantity }}</td>
                         <td>{{ item.supplier }}</td>
                         <td>{{ item.supplierEmail }}</td>
                         <td>{{ item.dateAdded }}</td>
-                        <td><button class="btn btn-danger btn-sm remove-btn">Send Alert!</button></td>
                     </tr>
                     {% endfor %}
                 </tbody>

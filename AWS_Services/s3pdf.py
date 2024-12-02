@@ -5,7 +5,6 @@ def create_s3_bucket(bucket_name, region):
     try:
         s3_client = boto3.client('s3', region_name=region)
         
-        # Use CreateBucketConfiguration only for regions other than 'us-east-1'
         if region == 'us-east-1':
             s3_client.create_bucket(Bucket=bucket_name)
         else:
@@ -20,6 +19,6 @@ def create_s3_bucket(bucket_name, region):
         print(f"Error: {e}")
         return False
 
-bucket_name = "imsharibucket"
+bucket_name = "imsharipdfbucket"
 region = 'us-east-1'
 create_s3_bucket(bucket_name, region)

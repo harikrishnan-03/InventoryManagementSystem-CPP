@@ -4,12 +4,14 @@ from django.contrib.auth import login,logout,authenticate
 from django.contrib.auth.decorators import login_required
 from . models import *
 import boto3
+import json
 from django.conf import settings
 from lowStockLib.checkerStock import StockChecker
-import json
 from django.http import JsonResponse
+from django.http import HttpResponseServerError
 
-# Create your views here.
+sqs_client=boto3.client('sqs')
+
 def logIn(request):
     if request.method=='POST':
         form=LoginAuthentication(request,request.POST)
@@ -39,12 +41,44 @@ def signUp(request):
 
 @login_required(login_url="logIn")
 def logOut(request):
-    logout(request)
+    request.session.flush()    
     return redirect('homePage')
     
 def homePage(request):
     return render(request,"HomePage.html")
     
+@login_required(login_url="logIn")
+def communityPage(request):
+    currentUser=request.user
+    post=Community.objects.all()
+    return render(request,"Community.html",{'post':post}) 
+
+@login_required(login_url="logIn")
+def addPost(request):
+    return render(request,"AddCommunityPost.html")
+
+sns_client=boto3.client('sns')
+
+@login_required(login_url="logIn")
+def addPostForm(request):
+    if request.method=='POST':
+        user=UserData.objects.all()
+        print("Form Post Add")
+        currentUser=request.user
+        username=currentUser.name
+        heading=request.POST['heading']
+        post=request.POST['post']
+        savePost=Community(user=currentUser,heading=heading,post=post)
+        savePost.save()
+        message=f"New Community Post by {username}"
+        for i in user:
+            sns_client.publish(
+                TopicArn='arn:aws:sns:us-east-1:058264363855:CommunityNotification',
+                Message=message,
+                Subject=f"New Community Post by {username}",
+            )
+    return redirect('communityPage')
+
 @login_required(login_url="logIn")
 def profile(request):
     currentUser=request.user
@@ -60,10 +94,98 @@ def updateProfileForm(request,id):
             profileToUpdate.mobileNumber=request.POST['mobileNumber']
             profileToUpdate.save()
         return redirect('dashboard')
+
+@login_required(login_url="logIn")
+def generate_pdf(request):
+    lambda_client = boto3.client(
+        'lambda',
+        aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+        aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+        aws_session_token=settings.AWS_SESSION_TOKEN,
+        region_name="us-east-1"
+    )
+
+    try:
+        
+        user_id = request.user.id 
+        response = lambda_client.invoke(
+            FunctionName='GenerateStockPDFLambda',  # Lambda function name
+            InvocationType='RequestResponse',
+            Payload=json.dumps({'user_id': user_id}),
+        )
+
+        response_payload = response['Payload'].read().decode('utf-8')
+        return redirect('stockList')
+
+    except Exception as e:
+        return HttpResponseServerError(f"Error: {str(e)}")
+        
+@login_required(login_url="logIn")
+def download_pdf(request):
+    s3_client = boto3.client(
+        's3',
+        aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+        aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+        aws_session_token=settings.AWS_SESSION_TOKEN,
+        region_name="us-east-1"
+    )
+
+    bucket_name = 'imsharipdfbucket'
+    file_key = 'stock_list.pdf'
+
+    try:
+        # Check if the bucket is empty
+        response = s3_client.list_objects_v2(Bucket=bucket_name)
+
+        if 'Contents' not in response:  
+            print("Bucket is empty. Redirecting...")
+            print(response)
+            return redirect('stockList')  
+
+        # Generate a pre-signed URL for the specific file
+        presigned_url = s3_client.generate_presigned_url(
+            'get_object',
+            Params={
+                'Bucket': bucket_name,
+                'Key': file_key
+            },
+            ExpiresIn=3600
+        )
+
+        return JsonResponse({'status': 'success', 'download_url': presigned_url})
+
+    except Exception as e:
+        # Handle other errors
+        return redirect('stockList')  # Redirect to an error page
+
     
 @login_required(login_url="logIn")
 def dashboard(request):
-    return render(request,"Dashboard.html")
+    queue_url='https://sqs.us-east-1.amazonaws.com/058264363855/CommunityNotificationQueue'
+    response = sqs_client.receive_message(
+        QueueUrl=queue_url,
+        MaxNumberOfMessages=10,  #
+        WaitTimeSeconds=2  
+    )
+
+    notifications = []
+    if 'Messages' in response:
+        for message in response['Messages']:
+            #SNS message is inside SQS message body
+            sns_message = json.loads(message['Body'])
+            notification = {
+                'message': sns_message['Message'],  # Message from SNS
+            }
+
+            notifications.append(notification)
+            # After processing, delete the message from SQS to avoid processing it again
+            receipt_handle = message['ReceiptHandle']
+            sqs_client.delete_message(
+                QueueUrl=queue_url,
+                ReceiptHandle=receipt_handle
+            )
+
+    return render(request,"Dashboard.html",{'notifications':notifications})
     
 @login_required(login_url="logIn")
 def stockAdd(request):

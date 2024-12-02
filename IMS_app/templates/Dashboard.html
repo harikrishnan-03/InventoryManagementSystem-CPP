@@ -8,6 +8,13 @@
 
 <body>
     {% block content %}
+    <div class="shadow container mt-5 mx-auto">
+            {% for i in notifications %}
+            <h5>{{ i }}</h5>
+            {% endfor %}
+    </div>
+
+
     <div class="container mt-5 mx-auto">
         <div class="row ml-2">
             <div class="col-md-4">

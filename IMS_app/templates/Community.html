@@ -1,0 +1,36 @@
+{% extends 'NavBar.html' %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+</head>
+
+<body>
+    {% block content %}
+    <div class="ml-3">
+        <a href="{% url 'dashboard' %}" type="button" class="mt-3 btnSuccess btn">
+            Back
+        </a>
+        <a href="{% url 'addPost' %}" type="button" class="mt-3 mr-3 btnSuccess btn flRight" type="button">
+            Add Community Post
+        </a>
+        <h2 class="text-center">StockBuddy Community</h2>
+    </div>
+    {% for i in post %}
+    <div class="container mx-auto  pb-4 pt-4">
+        <div class="shadow  card">
+            <div class="card-body ">
+                <div>
+                    <h2>{{ i.heading }}</h2>
+                    <p>{{ i.post }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+    {% endblock %}
+</body>
+
+</html>

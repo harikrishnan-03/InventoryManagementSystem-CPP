@@ -1,7 +1,6 @@
 body {
   background-color: #CAF4FF;
   overflow-x: hidden;
-
 }
 
 .NavbarBody {
@@ -91,4 +90,9 @@ footer {
   width: 90%;
   height: 90%;
   border-radius: 50%
+}
+
+.profileImage {
+  border-radius: 50%;
+  text-align: center;
 }
